@@ -1,7 +1,15 @@
+"use client";
 import Link from "next/link";
 import React from "react";
+import { useStore } from "../stores/useStore";
 
 const NavBar = () => {
+  const { currency, setCurrency } = useStore();
+  
+  const handleCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrency(event.target.value);
+  };
+
   return (
     <div className="flex py-5 text-s md:text-xl text-white justify-between">
       <Link href="/" className="flex items-center">
@@ -18,18 +26,31 @@ const NavBar = () => {
           />
         </svg>{" "}
         satoshi
+        
       </Link>
-      <div className="hidden md:flex items-center   space-x-2 md:space-x-4">
+      <div className="hidden md:flex items-center space-x-2 md:space-x-4">
         <Link href="#">Home</Link>
         <Link href="#">Wallet</Link>
       </div>
       <div className="flex items-center space-x-2 md:space-x-4">
-        <select name="" id="" className=" py-2 rounded-md bg-transparent cursor-pointer">
-          <option className="bg-violet-900 text-white  " value="usd">USD</option>
-          <option className="bg-violet-900 text-white" value="usd">MXN</option>
-          <option className="bg-violet-900 text-white" value="usd">ARG</option>
+        <select
+          name=""
+          id=""
+          className="py-2 rounded-md bg-transparent cursor-pointer"
+          value={currency}
+          onChange={handleCurrencyChange}
+        >
+          <option className="bg-violet-900 text-white" value="usd">
+            USD
+          </option>
+          <option className="bg-violet-900 text-white" value="mxn">
+            MXN
+          </option>
+          
         </select>
-        <Link href="#" className="">Sign Up</Link>
+        <Link href="#" className="">
+          Sign Up
+        </Link>
       </div>
     </div>
   );
