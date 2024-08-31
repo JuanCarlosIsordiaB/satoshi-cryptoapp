@@ -53,7 +53,7 @@ const Hero = () => {
             <p className="p-6  border-slate-100 hidden md:block">Market Cap</p>
           </div>
           {
-            coins.slice(0, 10).map((coin, index) => (
+            coins.map((coin, index) => (
               <div key={coin.id} className="grid grid-cols-3 md:grid-cols-5 text-xs md:text-lg gap-1 text-center items-center border-b border-slate-100 py-2">
                 <p className="p-6 hidden md:block">{index + 1}</p>
                 <div className="flex items-center space-x-2 ml-5 md:ml-0">
