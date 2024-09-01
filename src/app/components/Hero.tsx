@@ -5,17 +5,42 @@ import { FlipWordsDemo } from "./ui/words-helper";
 import { useStore } from "../stores/useStore";
 
 const Hero = () => {
-  const { coins, getAllCoins } = useStore();
-  const [loading, setLoading] = useState(true);
+  const { coins, getAllCoins, setCoins } = useStore();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [search, setSearch] = useState<string>("");
+  const [allCoins, setAllCoins] = useState<any[]>([]); 
 
+ 
   useEffect(() => {
     const fetchCoins = async () => {
       setLoading(true);
-      await getAllCoins();
+      const data = await getAllCoins(); 
+      if (data !== undefined) {
+        setAllCoins(data); 
+        setCoins(data); 
+      }
       setLoading(false);
     };
     fetchCoins();
-  }, [getAllCoins]);
+  }, [getAllCoins, setCoins]);
+
+ 
+  useEffect(() => {
+    if (search === "") {
+      setCoins(allCoins); 
+    } else {
+      const filteredCoins = allCoins.filter((coin) =>
+        coin.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setCoins(filteredCoins); 
+    }
+  }, [search, allCoins, setCoins]);
+
+  
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+  };
 
   return (
     <div className="pb-20 pt-36">
@@ -37,11 +62,13 @@ const Hero = () => {
             Welcome to new Web 3 app! <br /> Where you can buy, manage your
             cryptocurrency in the best way.
           </p>
-          <form className="flex">
+          <form className="flex" onSubmit={submitForm}>
             <input
               type="text"
               placeholder="Find your Crypto"
               className="px-3 py-3 w-full border-none rounded-l-md"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <button className="text-white bg-indigo-600 px-2 py-3 hover:bg-indigo-900 transition-all rounded-r-md">
               Search
@@ -53,15 +80,15 @@ const Hero = () => {
       {!loading && (
         <div className="text-white mt-28">
           <div className="border border-slate-100 rounded-xl overflow-hidden">
-            <div className="grid grid-cols-3 md:grid-cols-5 text-xs md:text-lg gap-1 text-center font-semibold border-b-2 border-slate-100 pb-2 mb-4">
-              <p className="p-6 border-slate-100 hidden md:block">#</p>
-              <p className="p-6 border-slate-100">Coins</p>
-              <p className="p-6 border-slate-100">Price</p>
-              <p className="p-6 border-slate-100">24H Change</p>
-              <p className="p-6 border-slate-100 hidden md:block">Market Cap</p>
+            <div className="grid grid-cols-3 md:grid-cols-5 text-xs md:text-lg gap-1 text-center font-semibold border-b-2 border-slate-50 pb-2 mb-4">
+              <p className="p-6 border-slate-50 hidden md:block">#</p>
+              <p className="p-6 border-slate-50">Coins</p>
+              <p className="p-6 border-slate-50">Price</p>
+              <p className="p-6 border-slate-50">24H Change</p>
+              <p className="p-6 border-slate-50 hidden md:block">Market Cap</p>
             </div>
-            {coins.map((coin, index) => (
-              <div key={coin.id} className="grid grid-cols-3 md:grid-cols-5 text-xs md:text-lg gap-1 text-center items-center border-b border-slate-100 py-2">
+            {coins.slice(0, 10).map((coin, index) => (
+              <div key={coin.id} className="grid grid-cols-3 md:grid-cols-5 text-xs md:text-lg gap-1 text-center items-center border-b border-slate-50 py-2">
                 <p className="p-6 hidden md:block">{index + 1}</p>
                 <div className="flex items-center space-x-2 ml-5 md:ml-0">
                   <img src={coin.image} alt={coin.name} className="w-6 h-6" />

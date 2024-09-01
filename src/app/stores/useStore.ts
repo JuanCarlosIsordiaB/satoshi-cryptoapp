@@ -56,7 +56,7 @@ const store = create<State>((set) => ({
         'x-cg-demo-api-key': 'CG-PAtV5p4beDZNcib91QmyuuLY',
       },
     };
-
+  
     try {
       const response = await fetch(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`,
@@ -65,11 +65,14 @@ const store = create<State>((set) => ({
       const data = await response.json();
       console.log(data);
       set({ coins: Array.isArray(data) ? data : [] });
+      return Array.isArray(data) ? data : []; // Devuelve los datos obtenidos
     } catch (err) {
       console.error(err);
       set({ coins: [] });
+      return []; // Devuelve un array vacío en caso de error
     }
   },
+  
 }));
 
 export const useStore = () => useZustandStore(store);
