@@ -16,18 +16,18 @@ export function AnimatedModal() {
         Buy
       </Button>
       <Modal
-        className="bg-gray-900 text-white"
+        className="bg-gray-700 text-white"
         show={openModal}
         onClose={() => setOpenModal(false)}
       >
-        <Modal.Header className="bg-gray-800 text-xl font-extrabold text-white border-b border-gray-700">
-          Buy Crypto
+        <Modal.Header className="bg-black-200  text-white border-gray-700 border-none">
+          <h2 className="text-white text-xl font-extrabold">Buy your Crypto</h2>
         </Modal.Header>
-        <div className="bg-black-200">
+        <div className="bg-black-200 p-5">
           <div>
-            <h2 className="text-xl bg font-semibold text-white">Quantity: </h2>
+            <h2 className="text-xl bg font-semibold text-white py-3">Quantity: </h2>
             <input
-              className="w-full h-12 px-4 bg-gray-800 text-white border border-gray-700 rounded-md outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full h-12 px-4 bg-gray-700 text-white border border-gray-700 rounded-md outline-none focus:ring-2 focus:ring-indigo-500"
               type="text"
               name="quantity"
               id="quantity"
@@ -35,9 +35,9 @@ export function AnimatedModal() {
               min={0.01}
             />
           </div>
-          <div>
-            <h2 className="text-xl font-semibold text-white">
-              Payment Details
+          <div className="py-5">
+            <h2 className="text-xl font-semibold text-white py-3">
+              Payment Details:
             </h2>
             
             <div className="flex flex-col justify-around bg-gray-800 p-4 border border-white border-opacity-30 rounded-lg shadow-md max-w-xs mx-auto">
@@ -100,15 +100,15 @@ export function AnimatedModal() {
             </div>
           </div>
         </div>
-        <Modal.Footer className="bg-gray-800 border-t border-gray-700">
+        <Modal.Footer className="bg-black-200 border-none">
           <button
-            className="bg-red-600 text-lg text-center font-bold rounded-md hover:bg-red-700 transition-all p-3"
+            className="bg-red-500 w-full rounded-md text-center hover:bg-red-800 transition-all text-white font-bold p-3"
             onClick={() => setOpenModal(false)}
           >
             Cancel
           </button>
           <Link
-            className="bg-indigo-500 w-full rounded-md text-center hover:bg-indigo-800 transition-all text-white font-bold py-3"
+            className="bg-indigo-500 w-full rounded-md text-center hover:bg-indigo-800 transition-all text-white font-bold p-3"
             href="/"
             onClick={() => setOpenModal(false)}
           >

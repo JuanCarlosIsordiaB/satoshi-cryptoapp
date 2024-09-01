@@ -71,7 +71,7 @@ const CoinDetail = () => {
   }, [coinId, currency]);
 
   return (
-    <div className="pb-20 pt-36">
+    <div className="min-h-screen  justify-between">
       <div>
         <Spotlight
           className="-top-40 -left-10 md:-left-32 md:-top-20 h-screen"
@@ -83,7 +83,7 @@ const CoinDetail = () => {
         />
         <Spotlight className="top-28 left-80 h-[80vw] w-[50vw]" fill="white" />
       </div>
-      <div className="text-white container mx-auto px-4">
+      <div className="text-white container  mx-auto py-20">
         {loading && <p className="text-center text-lg">Loading...</p>}
         {error && <p className="text-center text-red-500">{error}</p>}
         {coinData && !loading && !error && (
@@ -127,7 +127,6 @@ const CoinDetail = () => {
                   <p>${formatNumber(coinData.market_data.high_24h[currency])}</p>
                 </div>
                 <AnimatedModal />
-                
               </div>
             </div>
           </div>
