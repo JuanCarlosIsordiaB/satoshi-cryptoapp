@@ -1,4 +1,4 @@
-import { createStore } from 'zustand';
+import { create } from 'zustand';
 import { useStore as useZustandStore } from 'zustand';
 
 interface Coin {
@@ -38,7 +38,7 @@ interface State {
   getAllCoins: () => void;
 }
 
-const store = createStore<State>((set) => ({
+const store = create<State>((set) => ({
   currency: 'usd',
   coins: [],
   setCurrency: (newCurrency: string) => {
@@ -64,9 +64,10 @@ const store = createStore<State>((set) => ({
       );
       const data = await response.json();
       console.log(data);
-      set({ coins: data });
+      set({ coins: Array.isArray(data) ? data : [] });
     } catch (err) {
       console.error(err);
+      set({ coins: [] });
     }
   },
 }));
