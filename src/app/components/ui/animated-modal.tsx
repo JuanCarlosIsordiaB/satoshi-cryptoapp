@@ -1,244 +1,121 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { cn } from "../../../../utils/cn";
+import { Button, Modal } from "flowbite-react";
+import Link from "next/link";
+import { useState } from "react";
 
-interface ModalContextType {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-}
-
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
-
-export const ModalProvider = ({ children }: { children: ReactNode }) => {
-  const [open, setOpen] = useState(false);
+export function AnimatedModal() {
+  const [openModal, setOpenModal] = useState(false);
 
   return (
-    <ModalContext.Provider value={{ open, setOpen }}>
-      {children}
-    </ModalContext.Provider>
-  );
-};
-
-export const useModal = () => {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
-  }
-  return context;
-};
-
-export function Modal({ children }: { children: ReactNode }) {
-  return <ModalProvider>{children}</ModalProvider>;
-}
-
-export const ModalTrigger = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => {
-  const { setOpen } = useModal();
-  return (
-    <button
-      className={cn(
-        "px-4 py-2 rounded-md text-black dark:text-white text-center relative overflow-hidden",
-        className
-      )}
-      onClick={() => setOpen(true)}
-    >
-      {children}
-    </button>
-  );
-};
-
-export const ModalBody = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => {
-  const { open } = useModal();
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [open]);
-
-  const modalRef = useRef(null);
-  const { setOpen } = useModal();
-  useOutsideClick(modalRef, () => setOpen(false));
-
-  return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-            backdropFilter: "blur(10px)",
-          }}
-          exit={{
-            opacity: 0,
-            backdropFilter: "blur(0px)",
-          }}
-          className="fixed [perspective:800px] [transform-style:preserve-3d] inset-0 h-full w-full  flex items-center justify-center z-50"
-        >
-          <Overlay />
-
-          <motion.div
-            ref={modalRef}
-            className={cn(
-              "min-h-[50%] max-h-[90%] md:max-w-[40%] bg-white dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden",
-              className
-            )}
-            initial={{
-              opacity: 0,
-              scale: 0.5,
-              rotateX: 40,
-              y: 40,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              rotateX: 0,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.8,
-              rotateX: 10,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 15,
-            }}
-          >
-            <CloseIcon />
-            {children}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
-
-export const ModalContent = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn("flex flex-col flex-1 p-8 md:p-10", className)}>
-      {children}
-    </div>
-  );
-};
-
-export const ModalFooter = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div
-      className={cn(
-        "flex justify-end p-4 bg-gray-100 dark:bg-neutral-900",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-};
-
-const Overlay = ({ className }: { className?: string }) => {
-  return (
-    <motion.div
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-        backdropFilter: "blur(10px)",
-      }}
-      exit={{
-        opacity: 0,
-        backdropFilter: "blur(0px)",
-      }}
-      className={`fixed inset-0 h-full w-full bg-black bg-opacity-50 z-50 ${className}`}
-    ></motion.div>
-  );
-};
-
-const CloseIcon = () => {
-  const { setOpen } = useModal();
-  return (
-    <button
-      onClick={() => setOpen(false)}
-      className="absolute top-4 right-4 group"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-black dark:text-white h-4 w-4 group-hover:scale-125 group-hover:rotate-3 transition duration-200"
+    <>
+      <Button
+        className="bg-indigo-600 text-4xl text-center font-bold rounded-md hover:bg-indigo-700 transition-all p-3 mt-10"
+        onClick={() => setOpenModal(true)}
       >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M18 6l-12 12" />
-        <path d="M6 6l12 12" />
-      </svg>
-    </button>
+        Buy
+      </Button>
+      <Modal
+        className="bg-gray-900 text-white"
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+      >
+        <Modal.Header className="bg-gray-800 text-xl font-extrabold text-white border-b border-gray-700">
+          Buy Crypto
+        </Modal.Header>
+        <div className="bg-black-200">
+          <div>
+            <h2 className="text-xl bg font-semibold text-white">Quantity: </h2>
+            <input
+              className="w-full h-12 px-4 bg-gray-800 text-white border border-gray-700 rounded-md outline-none focus:ring-2 focus:ring-indigo-500"
+              type="text"
+              name="quantity"
+              id="quantity"
+              placeholder="0.0"
+              min={0.01}
+            />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-white">
+              Payment Details
+            </h2>
+            
+            <div className="flex flex-col justify-around bg-gray-800 p-4 border border-white border-opacity-30 rounded-lg shadow-md max-w-xs mx-auto">
+              <div className="flex flex-row items-center justify-between mb-3">
+                <input
+                  className="w-full h-10 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2 mb-3 flex-grow"
+                  type="text"
+                  name="cardName"
+                  id="cardName"
+                  placeholder="Full Name"
+                />
+                <div className="flex items-center justify-center relative w-14 h-9 bg-gray-800 border border-white border-opacity-20 rounded-md">
+                  <svg
+                    className="text-white fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 48 48"
+                  >
+                    <path
+                      fill="#ff9800"
+                      d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"
+                    ></path>
+                    <path
+                      fill="#d50000"
+                      d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"
+                    ></path>
+                    <path
+                      fill="#ff3d00"
+                      d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <div className="flex flex-col space-y-3">
+                <input
+                  className="w-full h-10 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2"
+                  type="text"
+                  name="cardNumber"
+                  id="cardNumber"
+                  placeholder="0000 0000 0000 0000"
+                />
+                <div className="flex flex-row justify-between">
+                  <input
+                    className="w-full h-10 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2"
+                    type="text"
+                    name="expiryDate"
+                    id="expiryDate"
+                    placeholder="MM/AA"
+                  />
+                  <input
+                    className="w-full h-10 border-none outline-none text-sm bg-gray-800 text-white font-semibold caret-orange-500 pl-2"
+                    type="text"
+                    name="cvv"
+                    id="cvv"
+                    placeholder="CVV"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Modal.Footer className="bg-gray-800 border-t border-gray-700">
+          <button
+            className="bg-red-600 text-lg text-center font-bold rounded-md hover:bg-red-700 transition-all p-3"
+            onClick={() => setOpenModal(false)}
+          >
+            Cancel
+          </button>
+          <Link
+            className="bg-indigo-500 w-full rounded-md text-center hover:bg-indigo-800 transition-all text-white font-bold py-3"
+            href="/"
+            onClick={() => setOpenModal(false)}
+          >
+            Pay Now
+          </Link>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
-};
-
-// Hook to detect clicks outside of a component.
-// Add it in a separate file, I've added here for simplicity
-export const useOutsideClick = (
-  ref: React.RefObject<HTMLDivElement>,
-  callback: Function
-) => {
-  useEffect(() => {
-    const listener = (event: any) => {
-      // DO NOTHING if the element being clicked is the target element or their children
-      if (!ref.current || ref.current.contains(event.target)) {
-        return;
-      }
-      callback(event);
-    };
-
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
-
-    return () => {
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
-    };
-  }, [ref, callback]);
-};
+}

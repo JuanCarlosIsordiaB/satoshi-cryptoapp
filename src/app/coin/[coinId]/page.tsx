@@ -1,4 +1,5 @@
 'use client'
+import { AnimatedModal } from "@/app/components/ui/animated-modal";
 import { Spotlight } from "@/app/components/ui/Spotlight";
 import { useStore } from "@/app/stores/useStore";
 import { formatNumber } from "@/app/utils/formatNumber";
@@ -125,8 +126,8 @@ const CoinDetail = () => {
                   <p className="font-medium">High 24 h:</p>
                   <p>${formatNumber(coinData.market_data.high_24h[currency])}</p>
                 </div>
-                <Link href="/" className="bg-indigo-600 text-lg text-center font-bold rounded-md hover:bg-indigo-700 transition-all p-3 mt-10">Buy</Link>
-                <Link href=""  className="bg-slate-600  text-lg cursor-default  text-center font-bold rounded-md  transition-all p-3 mt-10">Sell</Link>
+                <AnimatedModal />
+                
               </div>
             </div>
           </div>
