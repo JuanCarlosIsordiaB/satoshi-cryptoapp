@@ -1,10 +1,11 @@
-"use client";
+'use client'
 import { Spotlight } from "@/app/components/ui/Spotlight";
 import { useStore } from "@/app/stores/useStore";
 import { formatNumber } from "@/app/utils/formatNumber";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
 interface VolumeData {
   [currency: string]: number;
 }
@@ -16,7 +17,7 @@ interface CoinMarketData {
 }
 
 interface MarketData {
-  current_price: VolumeData; // Añadido
+  current_price: VolumeData;
   total_volume: VolumeData;
   ath: VolumeData;
   market_cap: VolumeData;
@@ -33,10 +34,9 @@ interface Coin {
   id: string;
   symbol: string;
   name: string;
-  image: CoinImage; // Cambiado para reflejar la estructura correcta
+  image: CoinImage;
   market_cap_rank: number;
   market_data: MarketData;
-  
 }
 
 const CoinDetail = () => {
@@ -54,9 +54,7 @@ const CoinDetail = () => {
         `https://api.coingecko.com/api/v3/coins/${coinId}`
       );
       const data = await response.json();
-      console.log(data);
       setCoinData(data);
-      
     } catch (err) {
       setError("Failed to fetch coin data.");
       console.error(err);
@@ -105,38 +103,35 @@ const CoinDetail = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 <div>
                   <p className="font-medium">Current Price:</p>
-                  <p>${formatNumber(coinData.market_data.current_price.mxn)}</p>
+                  <p>${formatNumber(coinData.market_data.current_price[currency])}</p>
                 </div>
                 <div>
                   <p className="font-medium">Market Cap:</p>
-                  <p>${formatNumber(coinData.market_data.market_cap.usd)}</p>
+                  <p>${formatNumber(coinData.market_data.market_cap[currency])}</p>
                 </div>
                 <div>
                   <p className="font-medium">All Time High:</p>
-                  <p>${formatNumber(coinData.market_data.ath.mxn)}</p>
+                  <p>${formatNumber(coinData.market_data.ath[currency])}</p>
                 </div>
                 <div>
                   <p className="font-medium">Market Cap Rank:</p>
                   <p>{formatNumber(coinData.market_cap_rank)}</p>
                 </div>
-
                 <div>
                   <p className="font-medium">Total Volume:</p>
-                  <p>${formatNumber(coinData.market_data.total_volume.mxn)}</p>
+                  <p>${formatNumber(coinData.market_data.total_volume[currency])}</p>
                 </div>
                 <div>
                   <p className="font-medium">High 24 h:</p>
-                  <p>${formatNumber(coinData.market_data.high_24h.mxn)}</p>
+                  <p>${formatNumber(coinData.market_data.high_24h[currency])}</p>
                 </div>
                 <Link href="/" className="bg-indigo-600 text-lg text-center font-bold rounded-md hover:bg-indigo-700 transition-all p-3 mt-10">Buy</Link>
+                <Link href=""  className="bg-slate-600  text-lg cursor-default  text-center font-bold rounded-md  transition-all p-3 mt-10">Sell</Link>
               </div>
             </div>
-            
           </div>
-          
         )}
       </div>
-      
     </div>
   );
 };
