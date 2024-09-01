@@ -29,8 +29,8 @@ const NavBar = () => {
         
       </Link>
       <div className="hidden md:flex items-center space-x-2 md:space-x-4">
-        <Link href="#">Home</Link>
-        <Link href="#">Wallet</Link>
+        <Link href="/" className="hover:bg-slate-900 p-2 rounded-md transition-all">Home</Link>
+        <Link href="/" className="hover:bg-slate-900 p-2 rounded-md transition-all">Wallet</Link>
       </div>
       <div className="flex items-center space-x-2 md:space-x-4">
         <select
@@ -48,7 +48,7 @@ const NavBar = () => {
           </option>
           
         </select>
-        <Link href="#" className="">
+        <Link href="#" className="hover:underline transition-all">
           Sign Up
         </Link>
       </div>

@@ -4,6 +4,7 @@ import { Spotlight } from "./ui/Spotlight";
 import { FlipWordsDemo } from "./ui/words-helper";
 import { useStore } from "../stores/useStore";
 import Link from "next/link";
+import { formatNumber } from "../utils/formatNumber";
 
 const Hero = () => {
   const { coins, getAllCoins, setCoins } = useStore();
@@ -95,11 +96,11 @@ const Hero = () => {
                   <img src={coin.image} alt={coin.name} className="w-6 h-6" />
                   <p className="p-6">{coin.name}</p>
                 </div>
-                <p className="p-6">${coin.current_price.toFixed(3)}</p>
+                <p className="p-6">${formatNumber(coin.current_price)}</p>
                 <p className={`p-6 font-semibold ${coin.price_change_percentage_24h < 0 ? 'text-red-500' : 'text-green-500'}`}>
                   {coin.price_change_percentage_24h.toFixed(3)}%
                 </p>
-                <p className="p-6 hidden md:block">${coin.market_cap.toLocaleString()}</p>
+                <p className="p-6 hidden md:block">${formatNumber(coin.market_cap)}</p>
               </Link>
             ))}
           </div>
