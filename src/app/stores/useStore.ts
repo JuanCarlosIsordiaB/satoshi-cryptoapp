@@ -53,7 +53,7 @@ const store = create<State>((set) => ({
       method: 'GET',
       headers: {
         accept: 'application/json',
-        'x-cg-demo-api-key': String(process.env.NEXT_PUBLIC_COINGECKO_API_KEY),
+        'x-cg-demo-api-key': 'CG-PAtV5p4beDZNcib91QmyuuLY',
       },
     };
 
